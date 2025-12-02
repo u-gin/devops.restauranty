@@ -28,6 +28,8 @@ import CreateCampaign from "./pages/Admin/Campaigns/CreateCampaign/CreateCampaig
 import CampaignsPageList from "./pages/Admin/Campaigns/CampaignsPageList/CampaignsPageList";
 import EditCampaign from "./pages/Admin/Campaigns/EditCampaign/EditCampaign";
 
+console.log("SERVER URL:", process.env.REACT_APP_SERVER_URL);
+
 function App() {
   return (
     <div className="App">
