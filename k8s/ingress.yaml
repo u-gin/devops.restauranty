@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: restaurant-ingress
+  name: eugene-ingress
   namespace: eugene
   annotations:
     kubernetes.io/ingress.class: nginx
@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: restaurant.eugene.local
+    - host:   
       http:
         paths:
 
