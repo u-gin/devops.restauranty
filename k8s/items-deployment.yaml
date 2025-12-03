@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: eugene-deployment-items
+  namespace: eugene
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eugene-items
+  template:
+    metadata:
+      labels:
+        app: eugene-items
+    spec:
+      containers:
+        - name: items
+          image: ugindev/auth:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3003
+          env:
+            - name: PORT
+              value: "3003"
+
+            - name: MONGODB_URI
+              value: "mongodb://127.0.0.1:27017/resturanty"
+
+            

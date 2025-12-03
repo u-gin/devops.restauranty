@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: eugene-deployment-discounts
+  namespace: eugene
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eugene-discounts
+  template:
+    metadata:
+      labels:
+        app: eugene-discounts
+    spec:
+      containers:
+        - name: discounts
+          image: ugindev/discounts:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3002
+          env:
+            - name: PORT
+              value: "3002"
+
+            - name: MONGODB_URI
+              value: "mongodb://127.0.0.1:27017/resturanty"

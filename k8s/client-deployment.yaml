@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: eugene-deployment-client
+  namespace: eugene
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eugene-client
+  template:
+    metadata:
+      labels:
+        app: eugene-client
+    spec:
+      containers:
+        - name: client
+          image: ugindev/client:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+
+            - name: REACT_APP_SERVER_URL
+              value: "http://localhost:80"
