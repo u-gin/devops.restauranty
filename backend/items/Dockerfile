@@ -1,4 +1,4 @@
-FROM node:25-alpine
+FROM node:18-slim
 
 # add curl for healthcheck
 RUN apt-get update && \
@@ -19,8 +19,7 @@ RUN npm ci && \
 COPY . .
 
 # set environment variables
-ENV PORT=3001
-ENV MONGODB_URI=mongodb://127.0.0.1:27017/resturanty
+ENV PORT=3003
 
 EXPOSE 3003
 
