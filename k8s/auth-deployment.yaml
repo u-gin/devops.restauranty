@@ -24,6 +24,41 @@ spec:
               value: "3001"
 
             - name: MONGODB_URI
-              value: "mongodb://127.0.0.1:27017/resturanty"
+              value: "mongodb://eugene-service-mongo:27017/resturanty"
+            
+            - name: CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: eugene-secrets
+                  key: CLOUD_NAME
 
+            - name: CLOUD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: eugene-secrets
+                  key: CLOUD_API_KEY
+
+            - name: CLOUD_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: eugene-secrets
+                  key: CLOUD_API_SECRET
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: eugene-secrets
+                  key: SECRET
+
+          readinessProbe:
+            httpGet:
+              path: /api/auth/health
+              port: 3001
+            initialDelaySeconds: 6
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/auth/health
+              port: 3001
+            initialDelaySeconds: 30
+            periodSeconds: 20
             
