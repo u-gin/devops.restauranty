@@ -9,7 +9,7 @@ on:
 env:
   # Common env you may use across jobs
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER }}
+  EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
   K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE }}
   DOCKER_ORG: ${{ secrets.DOCKER_ORG }}
   INGRESS_HOST: ${{ secrets.INGRESS_HOST }}
