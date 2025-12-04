@@ -156,14 +156,14 @@ jobs:
       # Update deployment with the new image
       - name: Set images to new SHA tag
         run: |
-            kubectl -n "$K8S_NAMESPACE" set image deployment/eugene-deployment-auth eugene-deployment-auth=${{ steps.tag.outputs.auth_image }}
-            kubectl -n "$K8S_NAMESPACE" set image deployment/eugene-deployment-discounts eugene-deployment-discounts=${{ steps.tag.outputs.discounts_image }}
-            kubectl -n "$K8S_NAMESPACE" set image deployment/eugene-deployment-items eugene-deployment-items=${{ steps.tag.outputs.items_image }}
-            kubectl -n "$K8S_NAMESPACE" set image deployment/eugene-deployment-client eugene-deployment-client=${{ steps.tag.outputs.client_image }}
+            kubectl -n "$K8S_NAMESPACE" set image deployment/eugene-deployment-auth auth=${{ steps.tag.outputs.auth_image }}
+            kubectl -n "$K8S_NAMESPACE" set image deployment/eugene-deployment-discounts discounts=${{ steps.tag.outputs.discounts_image }}
+            kubectl -n "$K8S_NAMESPACE" set image deployment/eugene-deployment-items items=${{ steps.tag.outputs.items_image }}
+            kubectl -n "$K8S_NAMESPACE" set image deployment/eugene-deployment-client client=${{ steps.tag.outputs.client_image }}
 
         # Wait for all app rollouts
       - name: Wait for rollout (mongo)
-        run: kubectl -n "$K8S_NAMESPACE" rollout status deploy/eugene-deployment-mogo --timeout=120s
+        run: kubectl -n "$K8S_NAMESPACE" rollout status deploy/eugene-mogo --timeout=120s
 
       - name: Wait for rollout (auth)
         run: kubectl -n "$K8S_NAMESPACE" rollout status deploy/eugene-deployment-auth --timeout=120s
