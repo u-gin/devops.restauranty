@@ -16,8 +16,8 @@ spec:
             backend:
               service:
                 name: eugene-service-client
-                port:
-                  number: 3000  
+                port: 
+                  number: 80  
 
           - path: /api/auth
             pathType: Prefix
