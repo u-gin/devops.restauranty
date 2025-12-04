@@ -14,18 +14,11 @@ spec:
         app: eugene-client
     spec:
       containers:
-        - name: client
+        - name: client  
           image: ugindev/client:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
             - name: REACT_APP_SERVER_URL
-              value: "http://eugene-service-client:80"    
-          
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 3000
-            initialDelaySeconds: 6
-            periodSeconds: 10
+              value: "http://acb1d8c05429a4b45815dcf82b7f8012-42938708.us-east-2.elb.amazonaws.com"  
