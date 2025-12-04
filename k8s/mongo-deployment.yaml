@@ -29,4 +29,5 @@ spec:
 
       volumes:
         - name: mongo-storage
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: mongo-pvc
