@@ -163,7 +163,7 @@ jobs:
 
         # Wait for all app rollouts
       - name: Wait for rollout (mongo)
-        run: kubectl -n "$K8S_NAMESPACE" rollout status deploy/eugene-mogo --timeout=120s
+        run: kubectl -n "$K8S_NAMESPACE" rollout status deploy/eugene-mongo --timeout=120s
 
       - name: Wait for rollout (auth)
         run: kubectl -n "$K8S_NAMESPACE" rollout status deploy/eugene-deployment-auth --timeout=120s
