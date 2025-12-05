@@ -1,51 +1,45 @@
-// ℹ️ Gets access to environment variables/settings
-// https://www.npmjs.com/package/dotenv
 require("dotenv").config();
-
-// ℹ️ Connects to the database
 require("./db");
 
-// Handles http requests (express is node js framework)
-// https://www.npmjs.com/package/express
 const express = require("express");
 const cors = require('cors');
-const client = require("prom-client");
-const { httpMetricsMiddleware } = require('./metrics.cjs');
+const { client, loginCounter, httpMetricsMiddleware } = require('./metrics.cjs');
 const app = express();
 
-app.use(cors({
-    origin: '*'
-}));
+app.use(cors({ origin: '*' }));
 app.use(httpMetricsMiddleware);
 
-// ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
+// Config middleware
 require("./config")(app);
 
-require('./metrics.cjs');
-client.collectDefaultMetrics();
+// Health check
+app.get("/api/auth", (req, res) => res.json("Auth Server UP!"));
 
-app.get("/api/auth", (req, res, next) => {
-    res.json("Auth Server UP!");
+// Routes
+const authRoutes = require("./routes/auth.routes");
+const UsersRoutes = require("./routes/users.routes");
+
+// Increment login counter in login route
+authRoutes.post("/login", async (req, res, next) => {
+  loginCounter.inc();
+  next();
 });
 
-const authRoutes = require("./routes/auth.routes");
+// Attach routes
 app.use("/api/auth", authRoutes);
-
-const UsersRoutes = require("./routes/users.routes");
 app.use("/api/auth/users", UsersRoutes);
 
-// Expose /metrics endpoint for Prometheus to scrape metrics
+// Metrics endpoint
 app.get('/metrics', async (req, res) => {
-    try {
-        res.set('Content-Type', client.register.contentType);
-        const metrics = await client.register.metrics();
-        res.end(metrics);
-    } catch (ex) {
-        res.status(500).end(ex);
-    }
+  try {
+    res.set('Content-Type', client.register.contentType);
+    res.end(await client.register.metrics());
+  } catch (ex) {
+    res.status(500).end(ex);
+  }
 });
 
-// ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
+// Error handling
 require("./error-handling")(app);
 
 module.exports = app;
