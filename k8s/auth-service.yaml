@@ -3,6 +3,12 @@ kind: Service
 metadata:
   name: eugene-service-auth
   namespace: eugene
+  labels:
+    app: eugene-auth
+  annotations:
+    prometheus.io/scrape: "true"           # Enable Prometheus scraping
+    prometheus.io/path: "/metrics"         # Metrics endpoint
+    prometheus.io/port: "3001"           # Port where metrics are exposed
 spec:
   selector:
     app: eugene-auth
