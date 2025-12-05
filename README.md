@@ -43,9 +43,9 @@ cd items && npm install && npm start
 cd discounts && npm install && npm start
 cd client && npm install && npm start
 
+---
 
-
-HAProxy Local Routing
+## HAProxy Local Routing
 
 The haproxy.cfg routes requests to each microservice:
 
@@ -71,8 +71,9 @@ backend discounts_backend
 
 Visit http://localhost:8080/api/auth to access the Auth service locally.
 
+---
 
-Containerization
+## Containerization
 
 Dockerfiles exist for each microservice and client:
 
@@ -91,8 +92,9 @@ kubectl apply -f k8s/items-deployment.yaml
 kubectl apply -f k8s/discounts-deployment.yaml
 kubectl apply -f k8s/client-deployment.yaml
 
+---
 
-CI/CD Pipeline
+## CI/CD Pipeline
 
 GitHub Actions pipeline builds, tests, containerizes, and deploys services to Kubernetes.
 
