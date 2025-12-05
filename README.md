@@ -1,6 +1,6 @@
 # Restauranty Microservices Project
 
-A multi-microservice application including Auth, Items, Discounts, and a React client. Deployed on Kubernetes with Docker, monitored via Prometheus/Grafana.
+A multi-microservice application including Auth, Items, Discounts, and a React client. Deployed on Kubernetes with Docker and monitored via Prometheus/Grafana.
 
 ---
 
