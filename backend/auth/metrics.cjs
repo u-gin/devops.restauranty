@@ -1,7 +1,7 @@
 const client = require('prom-client');
 const User = require('./models/User.model');
 
-// Create a gauge to track the total number of users.
+// ----------------- User Gauge -----------------
 const userCountGauge = new client.Gauge({
   name: 'users_total',
   help: 'Total number of users',
@@ -17,41 +17,47 @@ async function updateUserCount() {
   }
 }
 
-// Start periodic updates (e.g., every minute)
-const UPDATE_INTERVAL_MS = 60000; // one minute
+// Update every minute
+const UPDATE_INTERVAL_MS = 60000;
 setInterval(updateUserCount, UPDATE_INTERVAL_MS);
-
 updateUserCount();
 
-// Overall HTTP requests counter without labels.
+// ----------------- HTTP Counters -----------------
 const totalHttpRequestsCounter = new client.Counter({
   name: 'http_requests_overall_total',
   help: 'Overall total number of HTTP requests',
 });
 
-// Counter with labels for detailed HTTP request tracking.
 const httpRequestsCounter = new client.Counter({
   name: 'http_requests_total',
   help: 'Total number of HTTP requests with labels',
   labelNames: ['method', 'route', 'statusCode'],
 });
 
-// Express middleware to update both HTTP requests counters.
 function httpMetricsMiddleware(req, res, next) {
   res.on('finish', () => {
     const method = req.method;
     const route = req.originalUrl || req.url;
     const statusCode = res.statusCode.toString();
 
-    // Increment the detailed counter.
     httpRequestsCounter.labels(method, route, statusCode).inc();
-
-    // Increment the overall counter.
     totalHttpRequestsCounter.inc();
   });
   next();
 }
 
+// ----------------- Custom Login Counter -----------------
+const loginCounter = new client.Counter({
+  name: 'auth_logins_total',
+  help: 'Number of successful logins',
+});
+
+// ----------------- Exports -----------------
 module.exports = {
+  client,
+  userCountGauge,
+  totalHttpRequestsCounter,
+  httpRequestsCounter,
   httpMetricsMiddleware,
+  loginCounter,
 };
